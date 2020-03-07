@@ -1,9 +1,9 @@
-import { Game, NewGame } from "./State"
+import { NewGame, GamesWithRatings } from "./State"
 
-export const getGames = (): Promise<ReadonlyArray<Game>> =>
+export const getGames = (): Promise<GamesWithRatings> =>
   fetch("/api/games").then(response => response.json())
 
-export const createTask = (newGame: NewGame): Promise<{}> =>
+export const createGame = (newGame: NewGame): Promise<{}> =>
   fetch("/api/games", post(newGame)).then(response => response.json())
 
 const post = (body: any): RequestInit =>

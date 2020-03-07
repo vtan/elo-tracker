@@ -10,8 +10,11 @@ class GameService(
   gameRepository: GameRepository
 )(implicit ec: ExecutionContext) {
 
-  def getAll: Future[Seq[Game]] =
-    database.run(gameRepository.getAll)
+  def getGamesWithRatings: Future[GamesWithRatings] =
+    database.run(gameRepository.getAll).map { games =>
+      val ratings = RatingsAfterGame.rateGames(games)
+      GamesWithRatings(games, ratings)
+    }
 
   def create(newGame: NewGame): Future[Unit] = {
     val game = newGame.created(playedAt = LocalDateTime.now(ZoneId.of("UTC")))

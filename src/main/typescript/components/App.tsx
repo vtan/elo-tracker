@@ -1,12 +1,46 @@
 import { NewGameForm } from "./NewGameForm"
-import { State } from "../State"
+import { State, Game } from "../State"
 
 import * as React from "react"
 import * as ReactRedux from "react-redux"
 
 const render = (props: State) => {
+  const [gameIndex, setGameIndex] = React.useState(0)
+
+  const game: Game | undefined = props.games[gameIndex]
+  const ratings = game === undefined
+    ? []
+    : Object.entries(props.ratingsAfterGames[gameIndex].playerRatings)
+  ratings.sort(([_player1, rating1], [_player2, rating2]) =>
+    (rating2.rating - 2 * rating2.deviation) - (rating1.rating - 2 * rating1.deviation)
+  )
+
   return <div>
     <NewGameForm />
+    <hr />
+    { game === undefined
+        ? ""
+        : <div>
+            <input type="range" min="0" max={props.games.length - 1}
+              value={gameIndex}
+              onChange={ (e) => setGameIndex(Number.parseInt(e.target.value)) } />
+            <p>
+              Ratings after <strong>{game.player1}</strong> vs <strong>{game.player2}</strong> on {game.playedAt}
+              <small> (95% confidence level)</small>
+            </p>
+            <table>
+              <tbody>
+                { ratings.map(([player, rating], index) =>
+                    <tr key={player}>
+                      <td>{ index + 1 }.</td>
+                      <td>{player}</td>
+                      <td>{rating.rating.toFixed(0)} ± {(2 * rating.deviation).toFixed(0)}</td>
+                    </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+    }
     <hr />
     <div>
       <table>
@@ -18,33 +52,6 @@ const render = (props: State) => {
                 <td className="darkColumn">{game.score1}</td>
                 <td className={"lightColumn" + (game.score2 > game.score1 ? " winner" : "")}>{game.player2}</td>
                 <td className="lightColumn">{game.score2}</td>
-              </tr>
-          )}
-        </tbody>
-      </table>
-    </div>
-    <hr />
-    <div>
-      <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Player</th>
-            <th>Score</th>
-            <th>Victories</th>
-            <th>Defeats</th>
-            <th>Ties</th>
-          </tr>
-        </thead>
-        <tbody>
-          { props.playerStats.map((playerStats, index) =>
-              <tr key={playerStats.player}>
-                <td>{ index + 1 }</td>
-                <td>{playerStats.player}</td>
-                <td>{playerStats.score.toPrecision(2)}</td>
-                <td>{playerStats.victories}</td>
-                <td>{playerStats.defeats}</td>
-                <td>{playerStats.ties}</td>
               </tr>
           )}
         </tbody>

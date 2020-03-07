@@ -1,13 +1,13 @@
-import { PlayerStats } from "./PlayerStats"
-
-export interface State {
-  games: ReadonlyArray<Game>,
-  playerStats: ReadonlyArray<PlayerStats>
-}
+export interface State extends GamesWithRatings {}
 
 export const initialState: State = {
   games: [],
-  playerStats: []
+  ratingsAfterGames: []
+}
+
+export interface GamesWithRatings {
+  games: ReadonlyArray<Game>,
+  ratingsAfterGames: ReadonlyArray<{ playerRatings: Record<string, Rating> }>
 }
 
 export interface NewGame {
@@ -19,4 +19,9 @@ export interface NewGame {
 
 export interface Game extends NewGame {
   playedAt: string
+}
+
+export interface Rating {
+  rating: number,
+  deviation: number
 }
