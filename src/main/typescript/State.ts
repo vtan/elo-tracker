@@ -1,13 +1,9 @@
-export interface State extends GamesWithRatings {}
-
-export const initialState: State = {
-  games: [],
-  ratingsAfterGames: []
+export interface State {
+  games: ReadonlyArray<RatedGame>
 }
 
-export interface GamesWithRatings {
-  games: ReadonlyArray<Game>,
-  ratingsAfterGames: ReadonlyArray<{ playerRatings: Record<string, Rating> }>
+export const initialState: State = {
+  games: []
 }
 
 export interface NewGame {
@@ -24,4 +20,9 @@ export interface Game extends NewGame {
 export interface Rating {
   rating: number,
   deviation: number
+}
+
+export interface RatedGame {
+  game: Game,
+  playerRatings: Record<string, Rating>
 }

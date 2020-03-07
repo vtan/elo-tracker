@@ -10,10 +10,10 @@ class GameService(
   gameRepository: GameRepository
 )(implicit ec: ExecutionContext) {
 
-  def getGamesWithRatings: Future[GamesWithRatings] =
+  def getRatedGames: Future[Seq[RatedGame]] =
     database.run(gameRepository.getAll).map { games =>
-      val ratings = RatingsAfterGame.rateGames(games)
-      GamesWithRatings(games, ratings)
+      val ratings = Rating.rateGames(games)
+      (games zip ratings).map((RatedGame.apply _).tupled)
     }
 
   def create(newGame: NewGame): Future[Unit] = {

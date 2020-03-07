@@ -1,41 +1,19 @@
-import { GamesWithRatings } from "./State"
+import { RatedGame } from "./State"
 
 export const useFakeData: Boolean =
   new URLSearchParams(window.location.search).get('fakeData') !== null
 
-export const fakeGamesWithRatings: GamesWithRatings = {
-  "games": [
-    { "playedAt": "2019-07-08T00:00", "player1": "Aaaaaaaaaaa", "player2": "Bbb", "score1": 11, "score2": 29.5 },
-    { "playedAt": "2019-07-08T00:00:00.100", "player1": "Bbb", "player2": "Cccccc", "score1": 11, "score2": 11.5 },
-    { "playedAt": "2019-07-09T00:00", "player1": "Bbb", "player2": "Dddddd", "score1": 38, "score2": -21 },
-    { "playedAt": "2019-07-09T00:00:00.100", "player1": "Bbb", "player2": "Cccccc", "score1": 22, "score2": -8.5 },
-    { "playedAt": "2019-07-10T00:00", "player1": "Bbb", "player2": "Aaaaaaaaaaa", "score1": 12, "score2": 13.5 },
-    { "playedAt": "2019-07-11T00:00", "player1": "E", "player2": "Bbb", "score1": 9, "score2": 3.5 },
-    { "playedAt": "2019-07-15T00:00", "player1": "E", "player2": "Bbb", "score1": -5, "score2": 36.5 },
-    { "playedAt": "2019-07-16T00:00", "player1": "Aaaaaaaaaaa", "player2": "Bbb", "score1": 14, "score2": 18.5 },
-    { "playedAt": "2019-07-17T00:00", "player1": "Ffffff", "player2": "Bbb", "score1": -17, "score2": 31.5 },
-    { "playedAt": "2019-08-01T00:00", "player1": "Bbb", "player2": "Gggggg", "score1": 23, "score2": -24 },
-    { "playedAt": "2019-08-09T00:00", "player1": "Aaaaaaaaaaa", "player2": "Bbb", "score1": 23, "score2": 19.5 },
-    { "playedAt": "2019-09-28T00:00", "player1": "Bbb", "player2": "Aaaaaaaaaaa", "score1": 21, "score2": 10.5 },
-    { "playedAt": "2019-09-11T00:00", "player1": "Aaaaaaaaaaa", "player2": "Bbb", "score1": 19, "score2": 26.5 },
-    { "playedAt": "2020-01-14T00:00", "player1": "Bbb", "player2": "E", "score1": 37, "score2": 6.5 },
-    { "playedAt": "2020-01-15T00:00", "player1": "E", "player2": "Bbb", "score1": 5, "score2": 33.5 },
-    { "playedAt": "2020-01-21T00:00", "player1": "Bbb", "player2": "Aaaaaaaaaaa", "score1": 5, "score2": 32.5 },
-    { "playedAt": "2020-01-27T00:00", "player1": "Bbb", "player2": "E", "score1": 19, "score2": 2.5 },
-    { "playedAt": "2020-02-06T00:00", "player1": "Hhhh", "player2": "Bbb", "score1": -14, "score2": 40.5 },
-    { "playedAt": "2020-02-10T00:00", "player1": "Aaaaaaaaaaa", "player2": "Bbb", "score1": 26, "score2": 25.5 },
-    { "playedAt": "2020-02-21T00:00", "player1": "Bbb", "player2": "E", "score1": 29, "score2": -0.5 },
-    { "playedAt": "2020-03-04T00:00", "player1": "Hhhh", "player2": "E", "score1": 0, "score2": 38.5 },
-    { "playedAt": "2020-03-05T00:00", "player1": "Bbb", "player2": "E", "score1": 24, "score2": 0.5 }
-  ],
-  "ratingsAfterGames": [
+export const fakeRatedGames: ReadonlyArray<RatedGame> =
+  [
     {
+      "game": { "playedAt": "2019-07-08T00:00", "player1": "Aaaaaaaaaaa", "player2": "Bbb", "score1": 11, "score2": 29.5 },
       "playerRatings": {
         "Aaaaaaaaaaa": { "rating": 1337.7878209893436, "deviation": 290.23024334413657 },
         "Bbb": { "rating": 1662.2121790106564, "deviation": 290.23024334413657 }
       }
     },
     {
+      "game": { "playedAt": "2019-07-08T00:00:00.100", "player1": "Bbb", "player2": "Cccccc", "score1": 11, "score2": 11.5 },
       "playerRatings": {
         "Aaaaaaaaaaa": { "rating": 1337.7878209893436, "deviation": 296.3673297642585 },
         "Bbb": { "rating": 1492.1936087654099, "deviation": 260.34182443243037 },
@@ -43,6 +21,7 @@ export const fakeGamesWithRatings: GamesWithRatings = {
       }
     },
     {
+      "game": { "playedAt": "2019-07-09T00:00", "player1": "Bbb", "player2": "Dddddd", "score1": 38, "score2": -21 },
       "playerRatings": {
         "Aaaaaaaaaaa": { "rating": 1337.7878209893436, "deviation": 302.3798838408348 },
         "Bbb": { "rating": 1602.5184098282853, "deviation": 237.57332437846466 },
@@ -51,6 +30,7 @@ export const fakeGamesWithRatings: GamesWithRatings = {
       }
     },
     {
+      "game": { "playedAt": "2019-07-09T00:00:00.100", "player1": "Bbb", "player2": "Cccccc", "score1": 22, "score2": -8.5 },
       "playerRatings": {
         "Aaaaaaaaaaa": { "rating": 1337.7878209893436, "deviation": 308.2751922416021 },
         "Bbb": { "rating": 1729.399834469859, "deviation": 219.7524749898605 },
@@ -59,6 +39,7 @@ export const fakeGamesWithRatings: GamesWithRatings = {
       }
     },
     {
+      "game": { "playedAt": "2019-07-10T00:00", "player1": "Bbb", "player2": "Aaaaaaaaaaa", "score1": 12, "score2": 13.5 },
       "playerRatings": {
         "Aaaaaaaaaaa": { "rating": 1653.280147622543, "deviation": 280.19951935550694 },
         "Bbb": { "rating": 1572.438276186566, "deviation": 215.1678989556231 },
@@ -67,6 +48,7 @@ export const fakeGamesWithRatings: GamesWithRatings = {
       }
     },
     {
+      "game": { "playedAt": "2019-07-11T00:00", "player1": "E", "player2": "Bbb", "score1": 9, "score2": 3.5 },
       "playerRatings": {
         "Dddddd": { "rating": 1327.98798861119, "deviation": 296.3683908679165 },
         "Aaaaaaaaaaa": { "rating": 1653.280147622543, "deviation": 286.55151482247845 },
@@ -76,6 +58,7 @@ export const fakeGamesWithRatings: GamesWithRatings = {
       }
     },
     {
+      "game": { "playedAt": "2019-07-15T00:00", "player1": "E", "player2": "Bbb", "score1": -5, "score2": 36.5 },
       "playerRatings": {
         "Dddddd": { "rating": 1327.98798861119, "deviation": 302.380923845467 },
         "Aaaaaaaaaaa": { "rating": 1653.280147622543, "deviation": 292.76572655804006 },
@@ -85,6 +68,7 @@ export const fakeGamesWithRatings: GamesWithRatings = {
       }
     },
     {
+      "game": { "playedAt": "2019-07-16T00:00", "player1": "Aaaaaaaaaaa", "player2": "Bbb", "score1": 14, "score2": 18.5 },
       "playerRatings": {
         "Dddddd": { "rating": 1327.98798861119, "deviation": 308.27621235774603 },
         "Aaaaaaaaaaa": { "rating": 1493.4227200453122, "deviation": 243.25097908669858 },
@@ -94,6 +78,7 @@ export const fakeGamesWithRatings: GamesWithRatings = {
       }
     },
     {
+      "game": { "playedAt": "2019-07-17T00:00", "player1": "Ffffff", "player2": "Bbb", "score1": -17, "score2": 31.5 },
       "playerRatings": {
         "Dddddd": { "rating": 1327.98798861119, "deviation": 314.0608589201114 },
         "Ffffff": { "rating": 1392.1900544350583, "deviation": 277.10508827546414 },
@@ -104,6 +89,7 @@ export const fakeGamesWithRatings: GamesWithRatings = {
       }
     },
     {
+      "game": { "playedAt": "2019-08-01T00:00", "player1": "Bbb", "player2": "Gggggg", "score1": 23, "score2": -24 },
       "playerRatings": {
         "Dddddd": { "rating": 1327.98798861119, "deviation": 319.7408686821847 },
         "Ffffff": { "rating": 1392.1900544350583, "deviation": 283.52641843072183 },
@@ -115,6 +101,7 @@ export const fakeGamesWithRatings: GamesWithRatings = {
       }
     },
     {
+      "game": { "playedAt": "2019-08-09T00:00", "player1": "Aaaaaaaaaaa", "player2": "Bbb", "score1": 23, "score2": 19.5 },
       "playerRatings": {
         "Dddddd": { "rating": 1327.98798861119, "deviation": 325.32172246199315 },
         "Ffffff": { "rating": 1392.1900544350583, "deviation": 289.80550365400717 },
@@ -126,6 +113,7 @@ export const fakeGamesWithRatings: GamesWithRatings = {
       }
     },
     {
+      "game": { "playedAt": "2019-09-28T00:00", "player1": "Bbb", "player2": "Aaaaaaaaaaa", "score1": 21, "score2": 10.5 },
       "playerRatings": {
         "Dddddd": { "rating": 1327.98798861119, "deviation": 330.80843868565097 },
         "Ffffff": { "rating": 1392.1900544350583, "deviation": 295.9513979493132 },
@@ -137,6 +125,7 @@ export const fakeGamesWithRatings: GamesWithRatings = {
       }
     },
     {
+      "game": { "playedAt": "2019-09-11T00:00", "player1": "Aaaaaaaaaaa", "player2": "Bbb", "score1": 19, "score2": 26.5 },
       "playerRatings": {
         "Dddddd": { "rating": 1327.98798861119, "deviation": 336.2056262254368 },
         "Ffffff": { "rating": 1392.1900544350583, "deviation": 301.9722337370652 },
@@ -148,6 +137,7 @@ export const fakeGamesWithRatings: GamesWithRatings = {
       }
     },
     {
+      "game": { "playedAt": "2020-01-14T00:00", "player1": "Bbb", "player2": "E", "score1": 37, "score2": 6.5 },
       "playerRatings": {
         "Dddddd": { "rating": 1327.98798861119, "deviation": 341.5175297193954 },
         "Ffffff": { "rating": 1392.1900544350583, "deviation": 307.8753480682608 },
@@ -159,6 +149,7 @@ export const fakeGamesWithRatings: GamesWithRatings = {
       }
     },
     {
+      "game": { "playedAt": "2020-01-15T00:00", "player1": "E", "player2": "Bbb", "score1": 5, "score2": 33.5 },
       "playerRatings": {
         "Dddddd": { "rating": 1327.98798861119, "deviation": 346.748068640098 },
         "Ffffff": { "rating": 1392.1900544350583, "deviation": 313.6673874475202 },
@@ -170,6 +161,7 @@ export const fakeGamesWithRatings: GamesWithRatings = {
       }
     },
     {
+      "game": { "playedAt": "2020-01-21T00:00", "player1": "Bbb", "player2": "Aaaaaaaaaaa", "score1": 5, "score2": 32.5 },
       "playerRatings": {
         "Dddddd": { "rating": 1327.98798861119, "deviation": 350 },
         "Ffffff": { "rating": 1392.1900544350583, "deviation": 319.35439553598246 },
@@ -181,6 +173,7 @@ export const fakeGamesWithRatings: GamesWithRatings = {
       }
     },
     {
+      "game": { "playedAt": "2020-01-27T00:00", "player1": "Bbb", "player2": "E", "score1": 19, "score2": 2.5 },
       "playerRatings": {
         "Dddddd": { "rating": 1327.98798861119, "deviation": 350 },
         "Ffffff": { "rating": 1392.1900544350583, "deviation": 324.9418870323627 },
@@ -192,6 +185,7 @@ export const fakeGamesWithRatings: GamesWithRatings = {
       }
     },
     {
+      "game": { "playedAt": "2020-02-06T00:00", "player1": "Hhhh", "player2": "Bbb", "score1": -14, "score2": 40.5 },
       "playerRatings": {
         "Dddddd": { "rating": 1327.98798861119, "deviation": 350 },
         "Ffffff": { "rating": 1392.1900544350583, "deviation": 330.43491030481744 },
@@ -204,6 +198,7 @@ export const fakeGamesWithRatings: GamesWithRatings = {
       }
     },
     {
+      "game": { "playedAt": "2020-02-10T00:00", "player1": "Aaaaaaaaaaa", "player2": "Bbb", "score1": 26, "score2": 25.5 },
       "playerRatings": {
         "Dddddd": { "rating": 1327.98798861119, "deviation": 350 },
         "Ffffff": { "rating": 1392.1900544350583, "deviation": 335.8381007988116 },
@@ -216,6 +211,7 @@ export const fakeGamesWithRatings: GamesWithRatings = {
       }
     },
     {
+      "game": { "playedAt": "2020-02-21T00:00", "player1": "Bbb", "player2": "E", "score1": 29, "score2": -0.5 },
       "playerRatings": {
         "Dddddd": { "rating": 1327.98798861119, "deviation": 350 },
         "Ffffff": { "rating": 1392.1900544350583, "deviation": 341.1557268288966 },
@@ -228,6 +224,7 @@ export const fakeGamesWithRatings: GamesWithRatings = {
       }
     },
     {
+      "game": { "playedAt": "2020-03-04T00:00", "player1": "Hhhh", "player2": "E", "score1": 0, "score2": 38.5 },
       "playerRatings": {
         "Dddddd": { "rating": 1327.98798861119, "deviation": 350 },
         "Ffffff": { "rating": 1392.1900544350583, "deviation": 346.39172904120085 },
@@ -240,6 +237,7 @@ export const fakeGamesWithRatings: GamesWithRatings = {
       }
     },
     {
+      "game": { "playedAt": "2020-03-05T00:00", "player1": "Bbb", "player2": "E", "score1": 24, "score2": 0.5 },
       "playerRatings": {
         "Dddddd": { "rating": 1327.98798861119, "deviation": 350 },
         "Ffffff": { "rating": 1392.1900544350583, "deviation": 350 },
@@ -252,4 +250,3 @@ export const fakeGamesWithRatings: GamesWithRatings = {
       }
     }
   ]
-}

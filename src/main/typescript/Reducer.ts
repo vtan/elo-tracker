@@ -5,7 +5,7 @@ export const rootReducer = (state: State = initialState, action: Action): State 
   switch (action.type) {
     case "gamesFetched":
     case "gameCreated":
-      return { ...state, ...action.gamesWithRatings }
+      return { ...state, games: action.games }
     default:
       return state
   }

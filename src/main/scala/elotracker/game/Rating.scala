@@ -1,29 +1,27 @@
 package elotracker.game
 
-import java.time.LocalDateTime
 import io.circe.Encoder
 import io.circe.generic.semiauto._
-
-final case class RatingsAfterGame(
-  afterGame: LocalDateTime,
-  playerRatings: Map[String, Rating]
-)
 
 final case class Rating(
   rating: Double,
   deviation: Double
 )
 
-object RatingsAfterGame {
-  implicit val encoder: Encoder[RatingsAfterGame] = deriveEncoder
+object Rating {
+  implicit val encoder: Encoder[Rating] = deriveEncoder
 
-  def rateGames(games: Seq[Game]): Seq[RatingsAfterGame] = {
-    val ratings = games
+  val unrated: Rating = Rating(
+    rating = 1500,
+    deviation = 350
+  )
+
+  type PlayerRatings = Map[String, Rating]
+
+  def rateGames(games: Seq[Game]): Seq[PlayerRatings] =
+    games
       .scanLeft(Map.empty[String, Rating])(rateGame)
       .tail
-    val times = games.map(_.playedAt)
-    (times zip ratings).map((RatingsAfterGame.apply _).tupled)
-  }
 
   private def rateGame(playerRatings: Map[String, Rating], game: Game): Map[String, Rating] = {
     val withIncreasedDeviation: Map[String, Rating] =
@@ -74,13 +72,4 @@ object RatingsAfterGame {
 
     Rating(newRating, newDeviation)
   }
-}
-
-object Rating {
-  implicit val encoder: Encoder[Rating] = deriveEncoder
-
-  val unrated: Rating = Rating(
-    rating = 1500,
-    deviation = 350
-  )
 }

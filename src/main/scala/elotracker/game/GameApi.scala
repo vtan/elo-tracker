@@ -12,7 +12,7 @@ class GameApi(gameService: GameService, userService: UserService) extends Api {
     authenticateOrRejectWithChallenge(userService.authenticator _) { _ =>
       (get & path("games")) {
         complete {
-          gameService.getGamesWithRatings
+          gameService.getRatedGames
         }
       } ~
       (post & path("games") & entity(as[NewGame])) { newGame =>

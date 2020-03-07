@@ -1,24 +1,24 @@
 import * as Api from "./Api"
-import { State, NewGame, GamesWithRatings } from "./State"
+import { State, NewGame, RatedGame } from "./State"
 
 import { ThunkAction } from "redux-thunk"
 
 export type Action =
-  { type: "gamesFetched", gamesWithRatings: GamesWithRatings }
-  | { type: "gameCreated", gamesWithRatings: GamesWithRatings }
+  { type: "gamesFetched", games: ReadonlyArray<RatedGame> }
+  | { type: "gameCreated", games: ReadonlyArray<RatedGame> }
 
 type Thunk<T> = ThunkAction<T, State, undefined, Action>
 
 export const fetchGames = (): Thunk<void> =>
   dispatch => {
-    Api.getGames().then(gamesWithRatings => dispatch({ type: "gamesFetched", gamesWithRatings }))
+    Api.getGames().then(games => dispatch({ type: "gamesFetched", games }))
   }
 
 export const createGame = (newGame: NewGame): Thunk<void> =>
   dispatch => {
     Api.createGame(newGame).then(_ =>
-      Api.getGames().then(gamesWithRatings =>
-        dispatch({ type: "gameCreated", gamesWithRatings })
+      Api.getGames().then(games =>
+        dispatch({ type: "gameCreated", games })
       )
     )
   }

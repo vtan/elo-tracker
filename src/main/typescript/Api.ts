@@ -1,9 +1,9 @@
-import { NewGame, GamesWithRatings } from "./State"
-import { useFakeData, fakeGamesWithRatings } from "./FakeData"
+import { NewGame, RatedGame } from "./State"
+import { useFakeData, fakeRatedGames } from "./FakeData"
 
-export const getGames = (): Promise<GamesWithRatings> =>
+export const getGames = (): Promise<ReadonlyArray<RatedGame>> =>
   useFakeData
-    ? Promise.resolve(fakeGamesWithRatings)
+    ? Promise.resolve(fakeRatedGames)
     : fetch("/api/games").then(response => response.json())
 
 export const createGame = (newGame: NewGame): Promise<{}> =>
