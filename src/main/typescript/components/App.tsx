@@ -4,6 +4,9 @@ import { State, RatedGame } from "../State"
 import * as React from "react"
 import * as ReactRedux from "react-redux"
 
+const formatDate = (isoDateTime: string): string =>
+  isoDateTime.split("T")[0]
+
 const render = (props: State) => {
   const [gameIndex, setGameIndex] = React.useState(0)
 
@@ -25,8 +28,10 @@ const render = (props: State) => {
               value={gameIndex}
               onChange={ (e) => setGameIndex(Number.parseInt(e.target.value)) } />
             <p>
-              Ratings after <strong>{selectedGame.game.player1}</strong> vs <strong>{selectedGame.game.player2}</strong> on {selectedGame.game.playedAt}
-              <small> (95% confidence level)</small>
+              Ratings after <strong>{selectedGame.game.player1}</strong>
+              {' '}vs <strong>{selectedGame.game.player2}</strong>
+              {' '}on { formatDate(selectedGame.game.playedAt) }
+              {' '}<small>(95% confidence level)</small>
             </p>
             <table>
               <tbody>
@@ -47,7 +52,7 @@ const render = (props: State) => {
         <tbody>
           { props.games.map(g => g.game).map(game =>
               <tr key={game.playedAt}>
-                <td>{game.playedAt}</td>
+                <td>{ formatDate(game.playedAt) }</td>
                 <td className={"darkColumn" + (game.score1 > game.score2 ? " winner" : "")}>{game.player1}</td>
                 <td className="darkColumn">{game.score1}</td>
                 <td className={"lightColumn" + (game.score2 > game.score1 ? " winner" : "")}>{game.player2}</td>
