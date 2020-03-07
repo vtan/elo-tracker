@@ -50,15 +50,25 @@ const render = (props: State) => {
     <div>
       <table>
         <tbody>
-          { props.games.map(g => g.game).map(game =>
-              <tr key={game.playedAt}>
+          { props.games.map((ratedGame, index) => {
+              const game = ratedGame.game
+              const ratings = ratedGame.playerRatings
+              const previousRatings = index === 0 ? {} : props.games[index - 1].playerRatings
+              const rating1 = ratings[game.player1].rating
+              const rating2 = ratings[game.player2].rating
+              const ratingDiff1 = rating1 - (previousRatings[game.player1] || { rating: 1500 }).rating
+              const ratingDiff2 = rating2 - (previousRatings[game.player2] || { rating: 1500 }).rating
+              const signumToSymbol = (x: number) => x < 0 ? "↘" : "↗"
+              return <tr key={game.playedAt}>
                 <td>{ formatDate(game.playedAt) }</td>
                 <td className={"darkColumn" + (game.score1 > game.score2 ? " winner" : "")}>{game.player1}</td>
-                <td className="darkColumn">{game.score1}</td>
+                <td className="darkColumn">{rating1.toFixed(0)} {signumToSymbol(ratingDiff1)}{Math.abs(ratingDiff1).toFixed(0)}</td>
+                <td className="darkColumn" style={{textAlign: "right"}}><strong>{game.score1}</strong></td>
+                <td className="lightColumn"><strong>{game.score2}</strong></td>
+                <td className="lightColumn">{rating2.toFixed(0)} {signumToSymbol(ratingDiff2)}{Math.abs(ratingDiff2).toFixed(0)}</td>
                 <td className={"lightColumn" + (game.score2 > game.score1 ? " winner" : "")}>{game.player2}</td>
-                <td className="lightColumn">{game.score2}</td>
               </tr>
-          )}
+          } ) }
         </tbody>
       </table>
     </div>
