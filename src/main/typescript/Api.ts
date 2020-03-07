@@ -1,10 +1,15 @@
 import { NewGame, GamesWithRatings } from "./State"
+import { useFakeData, fakeGamesWithRatings } from "./FakeData"
 
 export const getGames = (): Promise<GamesWithRatings> =>
-  fetch("/api/games").then(response => response.json())
+  useFakeData
+    ? Promise.resolve(fakeGamesWithRatings)
+    : fetch("/api/games").then(response => response.json())
 
 export const createGame = (newGame: NewGame): Promise<{}> =>
-  fetch("/api/games", post(newGame)).then(response => response.json())
+  useFakeData
+    ? Promise.resolve({})
+    : fetch("/api/games", post(newGame)).then(response => response.json())
 
 const post = (body: any): RequestInit =>
   ({
