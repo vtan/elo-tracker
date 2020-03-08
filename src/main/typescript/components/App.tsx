@@ -9,6 +9,9 @@ const formatDate = (isoDateTime: string): string =>
 
 const render = (props: State) => {
   const [gameIndex, setGameIndex] = React.useState(0)
+  const [selectedPlayer, setSelectedPlayer] = React.useState<string | undefined>()
+  const togglePlayerSelection = (player: string) =>
+    setSelectedPlayer(p => p === player ? undefined : player)
 
   const selectedGame: RatedGame | undefined = props.games[gameIndex]
   const ratings = selectedGame === undefined
@@ -38,7 +41,9 @@ const render = (props: State) => {
                 { ratings.map(([player, rating], index) =>
                     <tr key={player}>
                       <td>{ index + 1 }.</td>
-                      <td>{player}</td>
+                      <td>
+                        <a className="player" onClick={ () => togglePlayerSelection(player) }>{player}</a>
+                      </td>
                       <td>{rating.rating.toFixed(0)} ± {(2 * rating.deviation).toFixed(0)}</td>
                     </tr>
                 )}
@@ -59,14 +64,19 @@ const render = (props: State) => {
               const ratingDiff1 = rating1 - (previousRatings[game.player1] || { rating: 1500 }).rating
               const ratingDiff2 = rating2 - (previousRatings[game.player2] || { rating: 1500 }).rating
               const signumToSymbol = (x: number) => x < 0 ? "↘" : "↗"
-              return <tr key={game.playedAt}>
+              const selected = game.player1 === selectedPlayer || game.player2 === selectedPlayer
+              return <tr key={game.playedAt} className={selected ? "selectedRow" : ""}>
                 <td>{ formatDate(game.playedAt) }</td>
-                <td className={"darkColumn" + (game.score1 > game.score2 ? " winner" : "")}>{game.player1}</td>
+                <td className={"darkColumn" + (game.score1 > game.score2 ? " winner" : "")}>
+                  <a className="player" onClick={ () => togglePlayerSelection(game.player1) }>{game.player1}</a>
+                </td>
                 <td className="darkColumn">{rating1.toFixed(0)} {signumToSymbol(ratingDiff1)}{Math.abs(ratingDiff1).toFixed(0)}</td>
                 <td className="darkColumn" style={{textAlign: "right"}}><strong>{game.score1}</strong></td>
                 <td className="lightColumn"><strong>{game.score2}</strong></td>
                 <td className="lightColumn">{rating2.toFixed(0)} {signumToSymbol(ratingDiff2)}{Math.abs(ratingDiff2).toFixed(0)}</td>
-                <td className={"lightColumn" + (game.score2 > game.score1 ? " winner" : "")}>{game.player2}</td>
+                <td className={"lightColumn" + (game.score2 > game.score1 ? " winner" : "")}>
+                  <a className="player" onClick={ () => togglePlayerSelection(game.player2) }>{game.player2}</a>
+                </td>
               </tr>
           } ) }
         </tbody>
