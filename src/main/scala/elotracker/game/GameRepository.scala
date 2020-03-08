@@ -19,7 +19,7 @@ private class GameTable(tag: Tag) extends Table[Game](tag, "game") {
 class GameRepository {
 
   def getAll: DBIO[Seq[Game]] =
-    table.result
+    table.sortBy(_.playedAt).result
 
   def create(game: Game): DBIO[Int] =
     table += game
