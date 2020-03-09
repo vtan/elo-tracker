@@ -12,25 +12,27 @@ interface Props {
 const render = (props: Props) => {
   const [player1, setPlayer1] = React.useState("")
   const [player2, setPlayer2] = React.useState("")
-  const [score1, setScore1] = React.useState<number | undefined>()
-  const [score2, setScore2] = React.useState<number | undefined>()
+  const [score1, setScore1] = React.useState("")
+  const [score2, setScore2] = React.useState("")
 
   const clear = () => {
     setPlayer1("")
     setPlayer2("")
-    setScore1(undefined)
-    setScore2(undefined)
+    setScore1("")
+    setScore2("")
   }
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    const trimmedPlayer1 = player1.trim()
-    const trimmedPlayer2 = player2.trim()
-    if (trimmedPlayer1 !== "" && trimmedPlayer2 !== "" && score1 !== undefined && score2 !== undefined) {
+    const validPlayer1 = player1.trim()
+    const validPlayer2 = player2.trim()
+    const validScore1 = parseFloat(score1)
+    const validScore2 = parseFloat(score2)
+    if (validPlayer1 !== "" && validPlayer2 !== "" && !isNaN(validScore1) && !isNaN(validScore2)) {
       props.createGame({
-        player1: trimmedPlayer1,
-        player2: trimmedPlayer2,
-        score1,
-        score2
+        player1: validPlayer1,
+        player2: validPlayer2,
+        score1: validScore1,
+        score2: validScore2
       })
       clear()
     }
@@ -44,7 +46,7 @@ const render = (props: Props) => {
         placeholder="Black player" />
       <input
         value={score1}
-        onChange={ (e) => setScore1(Number.parseFloat(e.target.value)) }
+        onChange={ (e) => setScore1(e.target.value) }
         placeholder="Score of black player" />
     </p>
     <p>
@@ -55,7 +57,7 @@ const render = (props: Props) => {
         placeholder="White player" />
       <input
         value={score2}
-        onChange={ (e) => setScore2(Number.parseFloat(e.target.value)) }
+        onChange={ (e) => setScore2(e.target.value) }
         placeholder="Score of white player" />
     </p>
     <p>
