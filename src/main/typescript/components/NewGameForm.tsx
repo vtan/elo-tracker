@@ -1,15 +1,12 @@
-import * as Action from "../Action"
-import { NewGame } from "../State"
+import * as AppReducer from "./AppReducer"
 
 import * as React from "react"
-import * as ReactRedux from "react-redux"
-import * as Redux from "redux"
 
 interface Props {
-  createGame: (_: NewGame) => void
+  dispatch: AppReducer.Dispatch
 }
 
-const render = (props: Props) => {
+export function NewGameForm(props: Props) {
   const [player1, setPlayer1] = React.useState("")
   const [player2, setPlayer2] = React.useState("")
   const [score1, setScore1] = React.useState("")
@@ -28,12 +25,13 @@ const render = (props: Props) => {
     const validScore1 = parseFloat(score1)
     const validScore2 = parseFloat(score2)
     if (validPlayer1 !== "" && validPlayer2 !== "" && !isNaN(validScore1) && !isNaN(validScore2)) {
-      props.createGame({
+      const newGame = {
         player1: validPlayer1,
         player2: validPlayer2,
         score1: validScore1,
         score2: validScore2
-      })
+      }
+      AppReducer.createGame(props.dispatch, newGame)
       clear()
     }
   }
@@ -66,11 +64,3 @@ const render = (props: Props) => {
     </p>
   </form>
 }
-
-export const NewGameForm = ReactRedux.connect(
-  undefined,
-  (dispatch: Redux.Dispatch<Redux.AnyAction>) => Redux.bindActionCreators({
-    createGame: Action.createGame
-  }, dispatch)
-)(render)
-

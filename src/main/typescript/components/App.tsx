@@ -1,33 +1,40 @@
+import * as AppReducer from "./AppReducer"
 import { NewGameForm } from "./NewGameForm"
-import { State, RatedGame } from "../State"
+import { RatedGame } from "../Game"
 
 import * as React from "react"
-import * as ReactRedux from "react-redux"
 
 const formatDate = (isoDateTime: string): string =>
   isoDateTime.split("T")[0]
 
-const render = (props: State) => {
+export function App() {
+  const [state, dispatch] = React.useReducer(AppReducer.reducer, AppReducer.initialState)
+
   const [gameIndex, setGameIndex] = React.useState(0)
   const [selectedPlayer, setSelectedPlayer] = React.useState<string | undefined>()
   const togglePlayerSelection = (player: string) =>
     setSelectedPlayer(p => p === player ? undefined : player)
 
-  const selectedGame: RatedGame | undefined = props.games[gameIndex]
+  React.useEffect(
+    () => AppReducer.fetchGames(dispatch),
+    []
+  )
+
+  const selectedGame: RatedGame | undefined = state.games[gameIndex]
   const ratings = selectedGame === undefined
     ? []
-    : Object.entries(props.games[gameIndex].playerRatings)
+    : Object.entries(state.games[gameIndex].playerRatings)
   ratings.sort(([_player1, rating1], [_player2, rating2]) =>
     (rating2.rating - 2 * rating2.deviation) - (rating1.rating - 2 * rating1.deviation)
   )
 
   return <div>
-    <NewGameForm />
+    <NewGameForm dispatch={dispatch} />
     <hr />
     { selectedGame === undefined
         ? ""
         : <div>
-            <input type="range" min="0" max={props.games.length - 1}
+            <input type="range" min="0" max={state.games.length - 1}
               value={gameIndex}
               onChange={ (e) => setGameIndex(Number.parseInt(e.target.value)) } />
             <p>
@@ -55,10 +62,10 @@ const render = (props: State) => {
     <div>
       <table>
         <tbody>
-          { props.games.map((ratedGame, index) => {
+          { state.games.map((ratedGame, index) => {
               const game = ratedGame.game
               const ratings = ratedGame.playerRatings
-              const previousRatings = index === 0 ? {} : props.games[index - 1].playerRatings
+              const previousRatings = index === 0 ? {} : state.games[index - 1].playerRatings
               const rating1 = ratings[game.player1].rating
               const rating2 = ratings[game.player2].rating
               const ratingDiff1 = rating1 - (previousRatings[game.player1] || { rating: 1500 }).rating
@@ -84,7 +91,3 @@ const render = (props: State) => {
     </div>
   </div>
 }
-
-export const App = ReactRedux.connect(
-  (state: State) => state
-)(render)

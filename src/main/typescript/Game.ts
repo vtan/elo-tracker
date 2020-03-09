@@ -1,11 +1,3 @@
-export interface State {
-  games: ReadonlyArray<RatedGame>
-}
-
-export const initialState: State = {
-  games: []
-}
-
 export interface NewGame {
   player1: string,
   player2: string,

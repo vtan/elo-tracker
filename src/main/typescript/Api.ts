@@ -1,5 +1,5 @@
-import { NewGame, RatedGame } from "./State"
 import { useFakeData, fakeRatedGames } from "./FakeData"
+import { NewGame, RatedGame } from "./Game"
 
 export const getGames = (): Promise<ReadonlyArray<RatedGame>> =>
   useFakeData

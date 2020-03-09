@@ -1,4 +1,4 @@
-import { RatedGame } from "./State"
+import { RatedGame } from "./Game"
 
 export const useFakeData: Boolean =
   new URLSearchParams(window.location.search).get('fakeData') !== null
