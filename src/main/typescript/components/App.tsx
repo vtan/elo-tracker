@@ -1,6 +1,5 @@
 import * as AppReducer from "./AppReducer"
 import { NewGameForm } from "./NewGameForm"
-import { RatedGame } from "../Game"
 
 import * as React from "react"
 
@@ -9,8 +8,8 @@ const formatDate = (isoDateTime: string): string =>
 
 export function App() {
   const [state, dispatch] = React.useReducer(AppReducer.reducer, AppReducer.initialState)
+  const { selectedGame, selectedGameIndex } = state
 
-  const [gameIndex, setGameIndex] = React.useState(0)
   const [selectedPlayer, setSelectedPlayer] = React.useState<string | undefined>()
   const togglePlayerSelection = (player: string) =>
     setSelectedPlayer(p => p === player ? undefined : player)
@@ -20,10 +19,9 @@ export function App() {
     []
   )
 
-  const selectedGame: RatedGame | undefined = state.games[gameIndex]
   const ratings = selectedGame === undefined
     ? []
-    : Object.entries(state.games[gameIndex].playerRatings)
+    : Object.entries(selectedGame.playerRatings)
   ratings.sort(([_player1, rating1], [_player2, rating2]) =>
     (rating2.rating - 2 * rating2.deviation) - (rating1.rating - 2 * rating1.deviation)
   )
@@ -35,8 +33,8 @@ export function App() {
         ? ""
         : <div>
             <input type="range" min="0" max={state.games.length - 1}
-              value={gameIndex}
-              onChange={ (e) => setGameIndex(Number.parseInt(e.target.value)) } />
+              value={selectedGameIndex}
+              onChange={ (e) => dispatch({ type: "gameSelected", index: parseInt(e.target.value) }) } />
             <p>
               Ratings after <strong>{selectedGame.game.player1}</strong>
               {' '}vs <strong>{selectedGame.game.player2}</strong>
