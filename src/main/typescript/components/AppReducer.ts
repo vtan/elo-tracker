@@ -4,7 +4,8 @@ import { RatedGame, NewGame } from "../Game"
 export interface State {
   games: ReadonlyArray<RatedGame>,
   selectedGameIndex: number,
-  selectedGame?: RatedGame
+  selectedGame?: RatedGame,
+  selectedPlayer?: string
 }
 
 export const initialState: State = {
@@ -16,6 +17,7 @@ export type Action =
   { type: "gamesFetched", games: ReadonlyArray<RatedGame> }
   | { type: "gameCreated", games: ReadonlyArray<RatedGame> }
   | { type: "gameSelected", index: number }
+  | { type: "playerToggled", player: string }
 
 export function reducer(state: State, action: Action): State {
   switch (action.type) {
@@ -38,6 +40,9 @@ export function reducer(state: State, action: Action): State {
         selectedGameIndex: action.index,
         selectedGame: state.games[action.index]
       }
+    case "playerToggled":
+      const selectedPlayer = state.selectedPlayer === action.player ? undefined : action.player
+      return { ...state, selectedPlayer }
   }
 }
 
