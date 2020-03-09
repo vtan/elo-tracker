@@ -11,10 +11,13 @@ interface Props {
 export function GameTable({ dispatch, state }: Props) {
   const { games, selectedPlayer } = state
 
+  const reverseGames = [ ...games ].reverse()
+
   return <div>
     <table>
       <tbody>
-        { games.map((ratedGame, index) => {
+        { reverseGames.map((ratedGame, reverseIndex) => {
+            const index = games.length - 1 - reverseIndex
             const game = ratedGame.game
             const ratings = ratedGame.playerRatings
             const previousRatings = index === 0 ? {} : games[index - 1].playerRatings
