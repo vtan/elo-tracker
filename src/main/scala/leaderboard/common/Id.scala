@@ -1,4 +1,4 @@
-package elotracker.common
+package leaderboard.common
 
 import akka.http.scaladsl.server.PathMatcher1
 import akka.http.scaladsl.server.PathMatchers.LongNumber

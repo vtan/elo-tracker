@@ -1,6 +1,6 @@
-package elotracker.game
+package leaderboard.game
 
-import elotracker.common.DatabaseProfile
+import leaderboard.common.DatabaseProfile
 
 import java.time.{LocalDateTime, ZoneId}
 import scala.concurrent.{ExecutionContext, Future}

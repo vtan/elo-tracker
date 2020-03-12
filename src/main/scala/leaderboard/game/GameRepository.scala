@@ -1,6 +1,6 @@
-package elotracker.game
+package leaderboard.game
 
-import elotracker.common.DatabaseProfile.api._
+import leaderboard.common.DatabaseProfile.api._
 
 import java.time.LocalDateTime
 import slick.lifted.ProvenShape

@@ -1,4 +1,4 @@
-package elotracker.common
+package leaderboard.common
 
 import io.circe.{Codec, Printer, parser}
 

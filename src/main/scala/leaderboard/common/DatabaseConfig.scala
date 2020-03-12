@@ -1,4 +1,4 @@
-package elotracker.common
+package leaderboard.common
 
 import com.typesafe.config.{Config, ConfigFactory, ConfigValueFactory}
 

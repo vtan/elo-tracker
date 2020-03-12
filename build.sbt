@@ -1,4 +1,4 @@
-name := "elotracker"
+name := "leaderboard"
 version := "0.1"
 scalaVersion := "2.13.1"
 
@@ -16,12 +16,12 @@ libraryDependencies ++= Vector(
   "io.circe" %% "circe-generic-extras" % "0.12.2",
   "io.circe" %% "circe-parser" % "0.12.2",
   "org.scala-lang" % "scala-reflect" % scalaVersion.value,
-  
+
   "com.typesafe.slick" %% "slick-hikaricp" % "3.3.2" % Runtime,
   "org.postgresql" % "postgresql" % "42.2.6" % Runtime
 )
 
-mainClass := Some("elotracker.Main")
+mainClass := Some("leaderboard.Main")
 
 scalacOptions ++= Seq(
   "-deprecation",                      // Emit warning and location for usages of deprecated APIs.

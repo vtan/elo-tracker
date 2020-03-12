@@ -1,7 +1,7 @@
-package elotracker.game
+package leaderboard.game
 
-import elotracker.common.Api
-import elotracker.user.UserService
+import leaderboard.common.Api
+import leaderboard.user.UserService
 
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route

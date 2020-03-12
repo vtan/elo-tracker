@@ -1,6 +1,6 @@
-package elotracker.common
+package leaderboard.common
 
-import elotracker.error.ApiError
+import leaderboard.error.ApiError
 
 import akka.event.LoggingAdapter
 import akka.http.scaladsl.model.{HttpResponse, StatusCodes}

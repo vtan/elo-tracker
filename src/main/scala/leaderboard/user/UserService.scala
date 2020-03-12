@@ -1,4 +1,4 @@
-package elotracker.user
+package leaderboard.user
 
 import akka.http.scaladsl.model.headers.{BasicHttpCredentials, HttpChallenge, HttpCredentials}
 import scala.concurrent.{Future}
@@ -8,7 +8,7 @@ class UserService {
   private val password: String = ""
 
   def authenticator(credentials: Option[HttpCredentials]): Future[Either[HttpChallenge, Unit]] = {
-    lazy val challenge = HttpChallenge(scheme = "basic", realm = "elo-tracker")
+    lazy val challenge = HttpChallenge(scheme = "basic", realm = "leaderboard")
     credentials match {
       case Some(BasicHttpCredentials(`username`, `password`)) =>
         Future.successful(Right(()))

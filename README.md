@@ -1,4 +1,4 @@
-# elo-tracker
+# leaderboard
 
 A leaderboard application using the Glicko rating system.
 

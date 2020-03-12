@@ -1,6 +1,6 @@
-package elotracker.error
+package leaderboard.error
 
-import elotracker.common.Id
+import leaderboard.common.Id
 
 import akka.http.scaladsl.model.{StatusCode, StatusCodes}
 import scala.reflect.runtime.universe._

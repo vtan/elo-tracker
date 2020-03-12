@@ -1,4 +1,4 @@
-package elotracker.game
+package leaderboard.game
 
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.semiauto._

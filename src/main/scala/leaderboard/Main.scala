@@ -1,8 +1,8 @@
-package elotracker
+package leaderboard
 
-import elotracker.common.{Api, DatabaseConfig, DatabaseProfile}
-import elotracker.game.{GameApi, GameRepository, GameService}
-import elotracker.user.UserService
+import leaderboard.common.{Api, DatabaseConfig, DatabaseProfile}
+import leaderboard.game.{GameApi, GameRepository, GameService}
+import leaderboard.user.UserService
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http

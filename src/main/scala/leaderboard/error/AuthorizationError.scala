@@ -1,4 +1,4 @@
-package elotracker.error
+package leaderboard.error
 
 import akka.http.scaladsl.model.{StatusCode, StatusCodes}
 
