@@ -1,11 +1,14 @@
 package leaderboard.game
 
+import leaderboard.common.Id
+
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.semiauto._
 
 import java.time.LocalDateTime
 
 final case class Game(
+  id: Id[Game],
   playedAt: LocalDateTime,
   player1: String,
   player2: String,
@@ -24,8 +27,8 @@ final case class NewGame(
   score2: Double
 ) {
 
-  def created(playedAt: LocalDateTime): Game =
-    Game(playedAt, player1, player2, score1, score2)
+  def forInsert(playedAt: LocalDateTime): Game =
+    Game(Id(0), playedAt, player1, player2, score1, score2)
 }
 
 object NewGame {

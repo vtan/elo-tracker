@@ -17,7 +17,7 @@ class GameService(
     }
 
   def create(newGame: NewGame): Future[Unit] = {
-    val game = newGame.created(playedAt = LocalDateTime.now(ZoneId.of("UTC")))
+    val game = newGame.forInsert(playedAt = LocalDateTime.now(ZoneId.of("UTC")))
     database.run(gameRepository.create(game).map(_ => ()))
   }
 }

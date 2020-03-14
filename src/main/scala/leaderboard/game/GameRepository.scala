@@ -1,11 +1,15 @@
 package leaderboard.game
 
 import leaderboard.common.DatabaseProfile.api._
+import leaderboard.common.DatabaseProfile.Mappers._
+import leaderboard.common.Id
 
-import java.time.LocalDateTime
 import slick.lifted.ProvenShape
 
+import java.time.LocalDateTime
+
 private class GameTable(tag: Tag) extends Table[Game](tag, "game") {
+  def id: Rep[Id[Game]] = column[Id[Game]]("id")
   def playedAt: Rep[LocalDateTime] = column[LocalDateTime]("playedAt")
   def player1: Rep[String] = column[String]("player1")
   def player2: Rep[String] = column[String]("player2")
@@ -13,7 +17,7 @@ private class GameTable(tag: Tag) extends Table[Game](tag, "game") {
   def score2: Rep[Double] = column[Double]("score2")
 
   def * : ProvenShape[Game] =
-    (playedAt, player1, player2, score1, score2) <> ((Game.apply _).tupled, Game.unapply)
+    (id, playedAt, player1, player2, score1, score2) <> ((Game.apply _).tupled, Game.unapply)
 }
 
 class GameRepository {
@@ -21,8 +25,12 @@ class GameRepository {
   def getAll: DBIO[Seq[Game]] =
     table.sortBy(_.playedAt).result
 
-  def create(game: Game): DBIO[Int] =
-    table += game
+  def create(game: Game): DBIO[Game] =
+    insert += game
 
   private val table = TableQuery[GameTable]
+
+  private val insert = table
+    .returning(table.map(_.id))
+    .into((inserted, id) => inserted.copy(id = id))
 }
