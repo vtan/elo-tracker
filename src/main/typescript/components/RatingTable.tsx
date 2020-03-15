@@ -37,7 +37,7 @@ const CertainScore = styled.div<{ widthPercent: number }>`
 `
 
 const PossibleScore = styled.div<{ widthPercent: number }>`
-	background: linear-gradient(to right, #000, #eee);
+	background: #999;
 	height: 0.5rem;
   width: ${props => props.widthPercent}%;
   transition: width 1s;
@@ -53,14 +53,14 @@ export function RatingTable({ dispatch, state }: Props) {
     () => {
       const result = Object.entries(selectedGame.playerRatings)
       result.sort(([_player1, rating1], [_player2, rating2]) =>
-        (rating2.rating - 2 * rating2.deviation) - (rating1.rating - 2 * rating1.deviation)
+        (rating2.rating - 1.5 * rating2.deviation) - (rating1.rating - 1.5 * rating1.deviation)
       )
       return result
     },
     [selectedGame]
   )
 
-  const maxRatingTop = Math.max(...ratings.map(r => r[1].rating + 2 * r[1].deviation))
+  const maxRatingTop = Math.max(...ratings.map(r => r[1].rating + 1.5 * r[1].deviation))
 
   return <div>
     <input type="range" min="0" max={games.length - 1}
@@ -70,7 +70,7 @@ export function RatingTable({ dispatch, state }: Props) {
       Ratings after <strong>{selectedGame.game.player1}</strong>
       {' '}vs <strong>{selectedGame.game.player2}</strong>
       {' '}on { formatDate(selectedGame.game.playedAt) }
-      {' '}<small>(95% confidence level)</small>
+      {' '}<small>(87% confidence level)</small>
     </p>
     <RatingsContainer>
         { ratings.map(([player, rating], index) =>
@@ -79,10 +79,10 @@ export function RatingTable({ dispatch, state }: Props) {
               <a className="player" onClick={ () => dispatch({ type: "playerToggled", player }) }>{ index + 1 }. {player}</a>
             </PlayerName>
             <PlayerScoreChart>
-              <CertainScore widthPercent={getWidthPercent(rating.rating - 2 * rating.deviation, maxRatingTop)} />
-              <PossibleScore widthPercent={getWidthPercent(4 * rating.deviation, maxRatingTop)} />
+              <CertainScore widthPercent={getWidthPercent(rating.rating - 1.5 * rating.deviation, maxRatingTop)} />
+              <PossibleScore widthPercent={getWidthPercent(3 * rating.deviation, maxRatingTop)} />
             </PlayerScoreChart>
-            <div>{rating.rating.toFixed(0)} ± {(2 * rating.deviation).toFixed(0)}</div>
+            <div>{rating.rating.toFixed(0)} ± {(1.5 * rating.deviation).toFixed(0)}</div>
           </Player>
         )}
     </RatingsContainer>
