@@ -37,7 +37,7 @@ const CertainScore = styled.div<{ widthPercent: number }>`
 `
 
 const PossibleScore = styled.div<{ widthPercent: number }>`
-	background: linear-gradient(to right, #000, #fff);
+	background: linear-gradient(to right, #000, #eee);
 	height: 0.5rem;
   width: ${props => props.widthPercent}%;
   transition: width 1s;
