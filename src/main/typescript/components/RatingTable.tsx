@@ -16,11 +16,17 @@ function getWidthPercent(score: number, maxScore: number): number {
 
 const RatingsContainer = styled.div``
 
+const Player = styled.div`
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+`
+
 const PlayerName = styled.div``
 
 const PlayerScoreChart = styled.div`
 	display: flex;
 	flex-direction: row;
+  margin: 0.25rem 0;
 `
 
 const CertainScore = styled.div<{ widthPercent: number }>`
@@ -31,7 +37,7 @@ const CertainScore = styled.div<{ widthPercent: number }>`
 `
 
 const PossibleScore = styled.div<{ widthPercent: number }>`
-	background: #999;
+	background: linear-gradient(to right, #000, #fff);
 	height: 0.5rem;
   width: ${props => props.widthPercent}%;
   transition: width 1s;
@@ -60,7 +66,7 @@ export function RatingTable({ dispatch, state }: Props) {
     <input type="range" min="0" max={games.length - 1}
       value={selectedGameIndex}
       onChange={ (e) => dispatch({ type: "gameSelected", index: parseInt(e.target.value) }) } />
-    <p>D
+    <p>
       Ratings after <strong>{selectedGame.game.player1}</strong>
       {' '}vs <strong>{selectedGame.game.player2}</strong>
       {' '}on { formatDate(selectedGame.game.playedAt) }
@@ -68,7 +74,7 @@ export function RatingTable({ dispatch, state }: Props) {
     </p>
     <RatingsContainer>
         { ratings.map(([player, rating], index) =>
-          <div key={player}>
+          <Player key={player}>
             <PlayerName>
               <a className="player" onClick={ () => dispatch({ type: "playerToggled", player }) }>{ index + 1 }. {player}</a>
             </PlayerName>
@@ -77,7 +83,7 @@ export function RatingTable({ dispatch, state }: Props) {
               <PossibleScore widthPercent={getWidthPercent(4 * rating.deviation, maxRatingTop)} />
             </PlayerScoreChart>
             <div>{rating.rating.toFixed(0)} ± {(2 * rating.deviation).toFixed(0)}</div>
-          </div>
+          </Player>
         )}
     </RatingsContainer>
   </div>
