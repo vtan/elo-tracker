@@ -8,12 +8,6 @@ interface Props {
   dispatch: AppReducer.Dispatch
 }
 
-const FormHeader = styled.h2`
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 1.5rem;
-  margin: 0 0 1.5rem;
-`
-
 const FormWrapper = styled.div`
 	position: absolute;
 	top: 0;
@@ -28,6 +22,12 @@ const FormWrapper = styled.div`
   @media (min-width: 400px) {
     box-shadow: 2px 0 10px 2px rgba(0, 0, 0, 0.3);
   }
+`
+
+const FormHeader = styled.h2`
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 1.5rem;
+  margin: 0 0 1.5rem;
 `
 
 const FormRow = styled.div`
@@ -106,15 +106,16 @@ export function NewGameForm(props: Props) {
       }
       AppReducer.createGame(props.dispatch, newGame)
       clear()
+      dispatch({ type: 'showAddForm', visible: false })
     }
   }
 
   const onCancel= (e: React.FormEvent)  => {
     e.preventDefault()
-    clear();
+    clear()
     dispatch({ type: 'showAddForm', visible: false })
   }
-  
+
   return <FormWrapper>
     <FormHeader>Add new game</FormHeader>
     <form onSubmit={onSubmit}>

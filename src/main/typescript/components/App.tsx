@@ -22,6 +22,7 @@ export function App() {
   const Container = styled.div`
     position: relative;
     padding: 1.5rem;
+    box-sizing: border-box;
   `
 
   return <Container>
@@ -33,7 +34,7 @@ export function App() {
 
     <h2>History</h2>
     <GameTable dispatch={dispatch} state={state} />
-    
+
     <AddButton onClick={openAddFormCallback}/>
     {showAddForm &&  <NewGameForm dispatch={dispatch} />}
   </Container>
