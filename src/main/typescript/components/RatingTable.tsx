@@ -10,7 +10,6 @@ interface Props {
 }
 
 function getWidthPercent(score: number, maxScore: number): number {
-
   return 100 * score / maxScore
 }
 
