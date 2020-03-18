@@ -19,12 +19,6 @@ export function App() {
     dispatch({ type: 'showAddForm', visible: true })
   }, [])
 
-  const Container = styled.div`
-    position: relative;
-    padding: 1.5rem;
-    box-sizing: border-box;
-  `
-
   return <Container>
     <h1>GO leaderboard</h1>
 
@@ -39,3 +33,9 @@ export function App() {
     {showAddForm &&  <NewGameForm dispatch={dispatch} />}
   </Container>
 }
+
+const Container = styled.div`
+  position: relative;
+  padding: 1.5rem;
+  box-sizing: border-box;
+`
