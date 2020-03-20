@@ -1,17 +1,22 @@
 import * as React from "react"
 import styled from "styled-components"
+
+import AddButton from './AddButton'
 import * as AppReducer from "./AppReducer"
+import { DeletedGamesTable } from "./DeletedGamesTable"
 import { GameTable } from "./GameTable"
 import { NewGameForm } from "./NewGameForm"
 import { RatingTable } from "./RatingTable"
-import AddButton from './AddButton'
 
 export function App() {
   const [state, dispatch] = React.useReducer(AppReducer.reducer, AppReducer.initialState)
   const { showAddForm } = state
 
   React.useEffect(
-    () => AppReducer.fetchGames(dispatch),
+    () => {
+      AppReducer.fetchGames(dispatch)
+      AppReducer.fetchDeletedGames(dispatch)
+    },
     []
   )
 
@@ -24,13 +29,15 @@ export function App() {
 
     <h2>Ranking</h2>
     <RatingTable dispatch={dispatch} state={state} />
-    <hr />
 
     <h2>History</h2>
     <GameTable dispatch={dispatch} state={state} />
 
-    <AddButton onClick={openAddFormCallback}/>
-    {showAddForm &&  <NewGameForm dispatch={dispatch} />}
+    <h2>Deleted games</h2>
+    <DeletedGamesTable dispatch={dispatch} deletedGames={state.deletedGames} />
+
+    <AddButton onClick={openAddFormCallback} />
+    {showAddForm && <NewGameForm dispatch={dispatch} />}
   </Container>
 }
 

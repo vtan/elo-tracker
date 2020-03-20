@@ -1,4 +1,5 @@
 import * as AppReducer from "./AppReducer"
+import { LinkButton } from "./LinkButton"
 import { formatDate } from "../Util"
 
 import * as React from "react"
@@ -47,6 +48,7 @@ export function GameTable({ dispatch, state }: Props) {
                     {game.player2}
                 </a>
               </td>
+              <td><LinkButton onClick={ () => AppReducer.deleteGame(dispatch, game) }>✗</LinkButton></td>
             </tr>
         } ) }
       </tbody>

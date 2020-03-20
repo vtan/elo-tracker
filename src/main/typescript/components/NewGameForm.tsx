@@ -102,7 +102,8 @@ export function NewGameForm(props: Props) {
         player1: validPlayer1,
         player2: validPlayer2,
         score1: validScore1,
-        score2: validScore2
+        score2: validScore2,
+        isDeleted: false
       }
       AppReducer.createGame(props.dispatch, newGame)
       clear()
