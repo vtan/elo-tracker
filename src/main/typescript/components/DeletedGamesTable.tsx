@@ -1,4 +1,5 @@
 import * as AppReducer from "./AppReducer"
+import { DarkGameCell, LightGameCell } from "./GameCell"
 import { LinkButton } from "./LinkButton"
 import { Game } from "../Game"
 import { formatDate } from "../Util"
@@ -17,10 +18,10 @@ export function DeletedGamesTable({ dispatch, deletedGames }: Props) {
         { deletedGames.map(game =>
             <tr key={game.id}>
               <td>{ formatDate(game.playedAt) }</td>
-              <td className={"darkColumn" + (game.score1 > game.score2 ? " winner" : "")}>{game.player1}</td>
-              <td className="darkColumn" style={{textAlign: "right"}}><strong>{game.score1}</strong></td>
-              <td className="lightColumn"><strong>{game.score2}</strong></td>
-              <td className={"lightColumn" + (game.score2 > game.score1 ? " winner" : "")}>{game.player2}</td>
+              <DarkGameCell >{game.player1}</DarkGameCell>
+              <DarkGameCell style={{textAlign: "right"}}><strong>{game.score1}</strong></DarkGameCell>
+              <LightGameCell><strong>{game.score2}</strong></LightGameCell>
+              <LightGameCell>{game.player2}</LightGameCell>
               <td><LinkButton onClick={ () => AppReducer.undeleteGame(dispatch, game) }>↩</LinkButton></td>
             </tr>
         ) }

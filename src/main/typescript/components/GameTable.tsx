@@ -1,8 +1,10 @@
 import * as AppReducer from "./AppReducer"
+import { DarkGameCell, LightGameCell } from "./GameCell"
 import { LinkButton } from "./LinkButton"
 import { formatDate } from "../Util"
 
 import * as React from "react"
+import styled from "styled-components"
 
 interface Props {
   dispatch: AppReducer.Dispatch,
@@ -28,30 +30,43 @@ export function GameTable({ dispatch, state }: Props) {
             const ratingDiff2 = rating2 - (previousRatings[game.player2] || { rating: 1500 }).rating
             const signumToSymbol = (x: number) => x < 0 ? "↘" : "↗"
             const selected = game.player1 === selectedPlayer || game.player2 === selectedPlayer
-            return <tr key={game.playedAt} className={selected ? "selectedRow" : ""}>
+            return <Row key={game.playedAt} selected={selected}>
               <td>{ formatDate(game.playedAt) }</td>
-              <td className={"darkColumn" + (game.score1 > game.score2 ? " winner" : "")}>
-                <a
-                  className="player"
+              <DarkGameCell>
+                <Player
+                  winner={ game.score1 > game.score2 }
                   onClick={ () => dispatch({ type: "playerToggled", player: game.player1 }) }>
                     {game.player1}
-                </a>
-              </td>
-              <td className="darkColumn">{rating1.toFixed(0)} {signumToSymbol(ratingDiff1)}{Math.abs(ratingDiff1).toFixed(0)}</td>
-              <td className="darkColumn" style={{textAlign: "right"}}><strong>{game.score1}</strong></td>
-              <td className="lightColumn"><strong>{game.score2}</strong></td>
-              <td className="lightColumn">{rating2.toFixed(0)} {signumToSymbol(ratingDiff2)}{Math.abs(ratingDiff2).toFixed(0)}</td>
-              <td className={"lightColumn" + (game.score2 > game.score1 ? " winner" : "")}>
-                <a
-                  className="player"
+                </Player>
+              </DarkGameCell>
+              <DarkGameCell>{rating1.toFixed(0)} {signumToSymbol(ratingDiff1)}{Math.abs(ratingDiff1).toFixed(0)}</DarkGameCell>
+              <DarkGameCell style={{textAlign: "right"}}><strong>{game.score1}</strong></DarkGameCell>
+              <LightGameCell><strong>{game.score2}</strong></LightGameCell>
+              <LightGameCell>{rating2.toFixed(0)} {signumToSymbol(ratingDiff2)}{Math.abs(ratingDiff2).toFixed(0)}</LightGameCell>
+              <LightGameCell>
+                <Player
+                  winner={ game.score2 > game.score1 }
                   onClick={ () => dispatch({ type: "playerToggled", player: game.player2 }) }>
                     {game.player2}
-                </a>
-              </td>
+                </Player>
+              </LightGameCell>
               <td><LinkButton onClick={ () => AppReducer.deleteGame(dispatch, game) }>✗</LinkButton></td>
-            </tr>
+            </Row>
         } ) }
       </tbody>
     </table>
   </div>
 }
+
+const Row = styled.tr<{ selected: boolean }>`
+  background-color: ${props => props.selected ? "#edf96c" : "transparent"};
+`
+
+const Player = styled.a<{ winner: boolean }>`
+  cursor: pointer;
+  text-decoration: ${props => props.winner ? "underline" : "none"};
+
+  &:hover {
+    border-bottom: 1px black dotted;
+  }
+`

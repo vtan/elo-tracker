@@ -1,5 +1,5 @@
 import * as React from "react"
-import styled from "styled-components"
+import styled, { createGlobalStyle } from "styled-components"
 
 import AddButton from './AddButton'
 import * as AppReducer from "./AppReducer"
@@ -24,22 +24,33 @@ export function App() {
     dispatch({ type: 'showAddForm', visible: true })
   }, [])
 
-  return <Container>
-    <h1>GO leaderboard</h1>
+  return <>
+    <GlobalStyle />
+    <Container>
+      <h1>GO leaderboard</h1>
 
-    <h2>Ranking</h2>
-    <RatingTable dispatch={dispatch} state={state} />
+      <h2>Ranking</h2>
+      <RatingTable dispatch={dispatch} state={state} />
 
-    <h2>History</h2>
-    <GameTable dispatch={dispatch} state={state} />
+      <h2>History</h2>
+      <GameTable dispatch={dispatch} state={state} />
 
-    <h2>Deleted games</h2>
-    <DeletedGamesTable dispatch={dispatch} deletedGames={state.deletedGames} />
+      <h2>Deleted games</h2>
+      <DeletedGamesTable dispatch={dispatch} deletedGames={state.deletedGames} />
 
-    <AddButton onClick={openAddFormCallback} />
-    {showAddForm && <NewGameForm dispatch={dispatch} />}
-  </Container>
+      <AddButton onClick={openAddFormCallback} />
+      {showAddForm && <NewGameForm dispatch={dispatch} />}
+    </Container>
+  </>
 }
+
+const GlobalStyle = createGlobalStyle`
+  body { margin: 0; }
+  h1 { margin-top: 0; }
+  body, input, button { font-family: 'Open Sans', sans-serif; font-size: 16px; }
+  table { border-collapse: separate; border-spacing: 0; }
+  td { padding: 2px 8px; }
+`
 
 const Container = styled.div`
   position: relative;
