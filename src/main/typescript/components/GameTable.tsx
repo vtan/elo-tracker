@@ -38,7 +38,7 @@ export function GameTable({ dispatch, games, selectedPlayer }: Props) {
 
             return <>
               { newYear
-                  ? <tr key={`separeator-${playedAt.year}`}>
+                  ? <tr key={`separator-${playedAt.year}`}>
                     <th colSpan={3} />
                     <YearSeparator colSpan={2}>{playedAt.year}</YearSeparator>
                     <th colSpan={3} />
