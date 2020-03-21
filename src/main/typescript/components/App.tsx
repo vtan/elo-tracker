@@ -33,7 +33,7 @@ export function App() {
       <RatingTable dispatch={dispatch} state={state} />
 
       <h2>History</h2>
-      <GameTable dispatch={dispatch} state={state} />
+      <GameTable dispatch={dispatch} games={state.games} selectedPlayer={state.selectedPlayer} />
 
       <h2>Deleted games</h2>
       <DeletedGamesTable dispatch={dispatch} deletedGames={state.deletedGames} />
@@ -49,7 +49,7 @@ const GlobalStyle = createGlobalStyle`
   h1 { margin-top: 0; }
   body, input, button { font-family: 'Open Sans', sans-serif; font-size: 16px; }
   table { border-collapse: separate; border-spacing: 0; }
-  td { padding: 2px 8px; }
+  th, td { padding: 2px 8px; }
 `
 
 const Container = styled.div`
