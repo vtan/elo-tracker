@@ -3,6 +3,7 @@ import { formatDate } from "../Util"
 
 import * as React from "react"
 import styled from 'styled-components'
+import { desaturate } from 'polished'
 
 interface Props {
   dispatch: AppReducer.Dispatch,
@@ -15,12 +16,11 @@ function getWidthPercent(score: number, maxScore: number): number {
 
 const RatingsContainer = styled.div``
 
-const Player = styled.div`
-  margin-bottom: 0.5rem;
-  font-weight: 700;
-`
-
 const PlayerName = styled.div``
+
+const PlayerScore = styled.span`
+  font-weight: normal;
+`
 
 const PlayerScoreChart = styled.div`
 	display: flex;
@@ -29,17 +29,30 @@ const PlayerScoreChart = styled.div`
 `
 
 const CertainScore = styled.div<{ widthPercent: number }>`
-	background: #000;
-	height: 0.5rem;
+	height: 0.25rem;
   width: ${props => props.widthPercent}%;
   transition: width 1s;
 `
 
 const PossibleScore = styled.div<{ widthPercent: number }>`
-	background: #999;
-	height: 0.5rem;
+  opacity: 0.5;
+	height: 0.25rem;
   width: ${props => props.widthPercent}%;
   transition: width 1s;
+`
+
+const Player = styled.div<{ color: string }>`
+  margin-bottom: 1rem;
+  font-weight: 700;
+
+  ${CertainScore},
+  ${PossibleScore} {
+	  background: ${props => props.color};
+  }
+
+  ${PlayerName} a {
+    color: ${props => props.color};
+  }
 `
 
 export function RatingTable({ dispatch, state }: Props) {
@@ -60,6 +73,8 @@ export function RatingTable({ dispatch, state }: Props) {
   )
 
   const maxRatingTop = Math.max(...ratings.map(r => r[1].rating + 1.5 * r[1].deviation))
+  const maxRatingBottom = Math.max(...ratings.map(r => r[1].rating - 1.5 * r[1].deviation))
+  const minRatingBottom = Math.min(...ratings.map(r => r[1].rating - 1.5 * r[1].deviation))
 
   return <div>
     <input type="range" min="0" max={games.length - 1}
@@ -73,15 +88,14 @@ export function RatingTable({ dispatch, state }: Props) {
     </p>
     <RatingsContainer>
         { ratings.map(([player, rating], index) =>
-          <Player key={player}>
+          <Player key={player} color={desaturate(1 - (rating.rating - 1.5 * rating.deviation - minRatingBottom) / (maxRatingBottom - minRatingBottom), '#0082aa')}>
             <PlayerName>
-              <a className="player" onClick={ () => dispatch({ type: "playerToggled", player }) }>{ index + 1 }. {player}</a>
+              <a className="player" onClick={ () => dispatch({ type: "playerToggled", player }) }>{ index + 1 }. {player} <PlayerScore> - {rating.rating.toFixed(0)} ± {(1.5 * rating.deviation).toFixed(0)}</PlayerScore></a>
             </PlayerName>
             <PlayerScoreChart>
               <CertainScore widthPercent={getWidthPercent(rating.rating - 1.5 * rating.deviation, maxRatingTop)} />
               <PossibleScore widthPercent={getWidthPercent(3 * rating.deviation, maxRatingTop)} />
             </PlayerScoreChart>
-            <div>{rating.rating.toFixed(0)} ± {(1.5 * rating.deviation).toFixed(0)}</div>
           </Player>
         )}
     </RatingsContainer>
