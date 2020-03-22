@@ -1,6 +1,9 @@
+import { GroupId } from "./Group"
+
 export type GameId = string
 
 export interface NewGame {
+  groupId: GroupId,
   player1: string,
   player2: string,
   score1: number,

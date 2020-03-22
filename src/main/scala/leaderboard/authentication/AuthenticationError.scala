@@ -1,4 +1,4 @@
-package leaderboard.user
+package leaderboard.authentication
 
 import leaderboard.error.ApiError
 

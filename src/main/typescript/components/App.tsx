@@ -10,12 +10,12 @@ import { RatingTable } from "./RatingTable"
 
 export function App() {
   const [state, dispatch] = React.useReducer(AppReducer.reducer, AppReducer.initialState)
-  const { showAddForm } = state
+  const { group, showAddForm } = state
 
   React.useEffect(
     () => {
-      AppReducer.fetchGames(dispatch)
-      AppReducer.fetchDeletedGames(dispatch)
+      AppReducer.fetchGames(dispatch, group.id)
+      AppReducer.fetchDeletedGames(dispatch, group.id)
     },
     []
   )
@@ -39,7 +39,7 @@ export function App() {
       <DeletedGamesTable dispatch={dispatch} deletedGames={state.deletedGames} />
 
       <AddButton onClick={openAddFormCallback} />
-      {showAddForm && <NewGameForm dispatch={dispatch} />}
+      {showAddForm && <NewGameForm dispatch={dispatch} groupId={group.id} />}
     </Container>
   </>
 }

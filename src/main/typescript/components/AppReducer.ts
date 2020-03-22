@@ -1,7 +1,9 @@
 import * as Api from "../Api"
 import { RatedGame, NewGame, Game } from "../Game"
+import { Group, GroupId } from "../Group"
 
 export interface State {
+  group: Group,
   games: ReadonlyArray<RatedGame>,
   deletedGames: ReadonlyArray<Game>,
   selectedGameIndex: number,
@@ -11,6 +13,7 @@ export interface State {
 }
 
 export const initialState: State = {
+  group: { id: "0" },
   games: [],
   deletedGames: [],
   selectedGameIndex: 0,
@@ -56,28 +59,28 @@ export function reducer(state: State, action: Action): State {
 
 export type Dispatch = (_: Action) => void
 
-export function fetchGames(dispatch: Dispatch): void {
-  Api.getGames().then(games => dispatch({ type: "gamesFetched", games }))
+export function fetchGames(dispatch: Dispatch, groupId: GroupId): void {
+  Api.getGames(groupId).then(games => dispatch({ type: "gamesFetched", games }))
 }
 
-export function fetchDeletedGames(dispatch: Dispatch): void {
-  Api.getDeletedGames().then(deletedGames => dispatch({ type: "deletedGamesFetched", deletedGames }))
+export function fetchDeletedGames(dispatch: Dispatch, groupId: GroupId): void {
+  Api.getDeletedGames(groupId).then(deletedGames => dispatch({ type: "deletedGamesFetched", deletedGames }))
 }
 
 export function createGame(dispatch: Dispatch, newGame: NewGame): void {
-  Api.createGame(newGame).then(_ => fetchGames(dispatch))
+  Api.createGame(newGame).then(_ => fetchGames(dispatch, newGame.groupId))
 }
 
 export function deleteGame(dispatch: Dispatch, game: Game): void {
   const deletedGame = { ...game, isDeleted: true }
   Api.updateGame(game.id, deletedGame).then(_ =>
-    Promise.all([fetchGames(dispatch), fetchDeletedGames(dispatch)])
+    Promise.all([fetchGames(dispatch, game.groupId), fetchDeletedGames(dispatch, game.groupId)])
   )
 }
 
 export function undeleteGame(dispatch: Dispatch, game: Game): void {
   const deletedGame = { ...game, isDeleted: false }
   Api.updateGame(game.id, deletedGame).then(_ =>
-    Promise.all([fetchGames(dispatch), fetchDeletedGames(dispatch)])
+    Promise.all([fetchGames(dispatch, game.groupId), fetchDeletedGames(dispatch, game.groupId)])
   )
 }
