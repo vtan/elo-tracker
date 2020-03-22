@@ -1,5 +1,5 @@
 import * as AppReducer from "./AppReducer"
-import { formatDate, blue } from "../Util"
+import { formatDate } from "../Util"
 
 import * as React from "react"
 import styled from 'styled-components'
