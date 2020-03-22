@@ -5,10 +5,11 @@ scalaVersion := "2.13.1"
 ThisBuild / useSuperShell := false
 
 libraryDependencies ++= Vector(
+  "ch.qos.logback" % "logback-classic" % "1.2.3",
   "com.github.t3hnar" %% "scala-bcrypt" % "4.1",
-  "com.typesafe.akka" %% "akka-actor-typed" % "2.5.26",
+  "com.typesafe.akka" %% "akka-actor-typed" % "2.6.4",
   "com.typesafe.akka" %% "akka-http" % "10.1.10",
-  "com.typesafe.akka" %% "akka-stream-typed" % "2.5.26",
+  "com.typesafe.akka" %% "akka-stream-typed" % "2.6.4",
   "com.typesafe.slick" %% "slick" % "3.3.2",
   "de.heikoseeberger" %% "akka-http-circe" % "1.29.1",
   "io.circe" %% "circe-core" % "0.12.2",
