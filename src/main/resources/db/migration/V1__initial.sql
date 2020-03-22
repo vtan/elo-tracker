@@ -1,4 +1,4 @@
-CREATE TABLE "game" (
+CREATE TABLE IF NOT EXISTS "game" (
   "id" bigserial NOT NULL PRIMARY KEY,
   "playedAt" timestamp NOT NULL,
   "player1" text NOT NULL,
@@ -8,4 +8,4 @@ CREATE TABLE "game" (
   "isDeleted" boolean NOT NULL
 );
 
-CREATE INDEX "game_playedAt" ON "game" ("playedAt");
+CREATE INDEX IF NOT EXISTS "game_playedAt" ON "game" ("playedAt");

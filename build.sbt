@@ -15,6 +15,7 @@ libraryDependencies ++= Vector(
   "io.circe" %% "circe-generic" % "0.12.2",
   "io.circe" %% "circe-generic-extras" % "0.12.2",
   "io.circe" %% "circe-parser" % "0.12.2",
+  "org.flywaydb" % "flyway-core" % "6.3.1",
   "org.scala-lang" % "scala-reflect" % scalaVersion.value,
 
   "com.typesafe.slick" %% "slick-hikaricp" % "3.3.2" % Runtime,
