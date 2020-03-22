@@ -1,8 +1,8 @@
 {
   "private": true,
   "dependencies": {
-    "polished": "^3.5.0",
     "luxon": "^1.22.0",
+    "polished": "^3.5.0",
     "react": "^16.4.1",
     "react-dom": "^16.0.1",
     "styled-components": "^5.0.1"
