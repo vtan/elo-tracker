@@ -1,10 +1,10 @@
 import * as AppReducer from "./AppReducer"
+import { ratingRange, RatingRange, Rating } from "../Game"
 import { formatDate } from "../Util"
 
 import * as React from "react"
 import styled from 'styled-components'
 import { desaturate } from 'polished'
-import { ratingRange, RatingRange, Rating } from "../Game"
 
 interface Props {
   dispatch: AppReducer.Dispatch,
