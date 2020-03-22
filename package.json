@@ -2,6 +2,7 @@
   "private": true,
   "dependencies": {
     "polished": "^3.5.0",
+    "luxon": "^1.22.0",
     "react": "^16.4.1",
     "react-dom": "^16.0.1",
     "styled-components": "^5.0.1"
@@ -11,6 +12,7 @@
     "build": "webpack -p"
   },
   "devDependencies": {
+    "@types/luxon": "^1.21.0",
     "@types/node": "^10.5.5",
     "@types/react": "^16.8.16",
     "@types/react-dom": "^16.8.4",

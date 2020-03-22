@@ -26,14 +26,14 @@ final case class NewGame(
   player2: String,
   score1: Double,
   score2: Double,
-  isDeleted: Option[Boolean]
+  isDeleted: Boolean
 ) {
 
   def forInsert(playedAt: LocalDateTime): Game =
-    Game(Id(0), playedAt, player1, player2, score1, score2, isDeleted.contains(true))
+    Game(Id(0), playedAt, player1, player2, score1, score2, isDeleted)
 
   def update(game: Game): Game =
-    Game(game.id, game.playedAt, player1, player2, score1, score2, isDeleted.contains(true))
+    Game(game.id, game.playedAt, player1, player2, score1, score2, isDeleted)
 }
 
 object NewGame {

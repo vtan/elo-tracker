@@ -10,6 +10,7 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.ExceptionHandler
 import akka.stream.ActorMaterializer
 import com.typesafe.config.ConfigFactory
+import org.flywaydb.core.Flyway
 
 object Main {
 
@@ -24,6 +25,8 @@ object Main {
         Option(System.getenv("DATABASE_URL")).filter(_.nonEmpty).fold(ConfigFactory.empty)(DatabaseConfig.parse)
       databaseConfig.withFallback(defaultConfig)
     }
+
+    Flyway.configure.dataSource(config.getString("database.url"), "", "").load.migrate
 
     val database = DatabaseProfile.api.Database.forConfig("database", config)
 
