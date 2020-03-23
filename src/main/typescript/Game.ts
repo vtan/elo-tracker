@@ -25,3 +25,23 @@ export interface RatedGame {
   game: Game,
   playerRatings: Record<string, Rating>
 }
+
+export interface RatingRange {
+  min: number,
+  max: number,
+  radius: number,
+  length: number
+}
+
+export function ratingRange(
+  { rating, deviation }: Rating,
+  multiplier: number = 1.5
+): RatingRange {
+  const radius = multiplier * deviation
+  return {
+    radius,
+    min: rating - radius,
+    max: rating + radius,
+    length: 2 * radius
+  }
+}
