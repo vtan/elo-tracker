@@ -32,7 +32,7 @@ class GameService(
         case Some(game) => Future.successful(game)
         case None => Future.failed(NotFoundError(gameId))
       }
-      updatedGame = newGame.update(game)
+      updatedGame <- Future.fromTry(newGame.update(game))
       _ <- database.run(gameRepository.update(updatedGame))
     } yield ()
 }

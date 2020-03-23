@@ -1,11 +1,13 @@
 import * as AppReducer from "./AppReducer"
+import { GroupId } from "../Group"
 
 import * as React from "react"
 import styled from "styled-components"
 
 
 interface Props {
-  dispatch: AppReducer.Dispatch
+  dispatch: AppReducer.Dispatch,
+  groupId: GroupId
 }
 
 const FormWrapper = styled.div`
@@ -79,7 +81,7 @@ const Dot = styled.div`
 `
 
 export function NewGameForm(props: Props) {
-  const { dispatch } = props;
+  const { dispatch, groupId } = props;
   const [player1, setPlayer1] = React.useState("")
   const [player2, setPlayer2] = React.useState("")
   const [score1, setScore1] = React.useState("")
@@ -99,6 +101,7 @@ export function NewGameForm(props: Props) {
     const validScore2 = parseFloat(score2)
     if (validPlayer1 !== "" && validPlayer2 !== "" && !isNaN(validScore1) && !isNaN(validScore2)) {
       const newGame = {
+        groupId,
         player1: validPlayer1,
         player2: validPlayer2,
         score1: validScore1,

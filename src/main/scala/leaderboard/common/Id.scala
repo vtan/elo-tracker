@@ -2,6 +2,7 @@ package leaderboard.common
 
 import akka.http.scaladsl.server.PathMatcher1
 import akka.http.scaladsl.server.PathMatchers.LongNumber
+import akka.http.scaladsl.unmarshalling.FromStringUnmarshaller
 import io.circe.{Decoder, Encoder, KeyDecoder}
 
 import scala.util.Try
@@ -17,6 +18,9 @@ object Id {
 
   implicit def keyDecoder[T]: KeyDecoder[Id[T]] =
     KeyDecoder.instance(_.toLongOption.map(Id(_)))
+
+  implicit def fromStringUnmarshaller[T]: FromStringUnmarshaller[Id[T]] =
+    implicitly[FromStringUnmarshaller[Long]].map(Id(_))
 
   def Matcher[T]: PathMatcher1[Id[T]] =
     LongNumber.tmap(id => Tuple1(Id[T](id._1)))

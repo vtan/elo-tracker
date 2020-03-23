@@ -3,6 +3,7 @@ package leaderboard.game
 import leaderboard.common.DatabaseProfile.api._
 import leaderboard.common.DatabaseProfile.Mappers._
 import leaderboard.common.Id
+import leaderboard.group.Group
 
 import slick.ast.ColumnOption.AutoInc
 import slick.lifted.ProvenShape
@@ -11,6 +12,7 @@ import java.time.LocalDateTime
 
 private class GameTable(tag: Tag) extends Table[Game](tag, "game") {
   def id: Rep[Id[Game]] = column[Id[Game]]("id", AutoInc)
+  def groupId: Rep[Id[Group]] = column[Id[Group]]("groupId")
   def playedAt: Rep[LocalDateTime] = column[LocalDateTime]("playedAt")
   def player1: Rep[String] = column[String]("player1")
   def player2: Rep[String] = column[String]("player2")
@@ -19,7 +21,7 @@ private class GameTable(tag: Tag) extends Table[Game](tag, "game") {
   def isDeleted: Rep[Boolean] = column[Boolean]("isDeleted")
 
   def * : ProvenShape[Game] =
-    (id, playedAt, player1, player2, score1, score2, isDeleted) <> ((Game.apply _).tupled, Game.unapply)
+    (id, groupId, playedAt, player1, player2, score1, score2, isDeleted) <> ((Game.apply _).tupled, Game.unapply)
 }
 
 class GameRepository {

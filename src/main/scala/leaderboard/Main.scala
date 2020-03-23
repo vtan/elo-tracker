@@ -2,7 +2,8 @@ package leaderboard
 
 import leaderboard.common.{Api, DatabaseConfig, DatabaseProfile}
 import leaderboard.game.{GameApi, GameRepository, GameService}
-import leaderboard.user.UserService
+import leaderboard.authentication.AuthenticationService
+import leaderboard.group.GroupRepository
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
@@ -30,7 +31,8 @@ object Main {
 
     val database = DatabaseProfile.api.Database.forConfig("database", config)
 
-    val userService = new UserService
+    val groupRepository = new GroupRepository
+    val userService = new AuthenticationService(database, groupRepository)
 
     val gameRepository = new GameRepository
     val gameService = new GameService(database, gameRepository)

@@ -35,9 +35,16 @@ const CertainScore = styled.div<{ widthPercent: number }>`
   transition: width 1s;
 `
 
-const PossibleScore = styled.div<{ widthPercent: number }>`
+const ProbableScore = styled.div<{ widthPercent: number }>`
   opacity: 0.5;
-	height: 0.25rem;
+  height: 0.25rem;
+  width: ${props => props.widthPercent}%;
+  transition: width 1s;
+`
+
+const PossibleScore = styled.div<{ widthPercent: number }>`
+  opacity: 0.25;
+  height: 0.25rem;
   width: ${props => props.widthPercent}%;
   transition: width 1s;
 `
@@ -47,6 +54,7 @@ const Player = styled.div<{ color: string }>`
   font-weight: 700;
 
   ${CertainScore},
+  ${ProbableScore},
   ${PossibleScore} {
 	  background: ${props => props.color};
   }
@@ -104,7 +112,8 @@ export function RatingTable({ dispatch, state }: Props) {
             </PlayerName>
             <PlayerScoreChart>
               <CertainScore widthPercent={getWidthPercent(rating.range.min, maxRatingTop)} />
-              <PossibleScore widthPercent={getWidthPercent(rating.range.length, maxRatingTop)} />
+              <ProbableScore widthPercent={getWidthPercent(rating.range.radius, maxRatingTop)} />
+              <PossibleScore widthPercent={getWidthPercent(rating.range.radius, maxRatingTop)} />
             </PlayerScoreChart>
           </Player>
         )}

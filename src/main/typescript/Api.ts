@@ -1,15 +1,16 @@
 import { useFakeData, fakeRatedGames, fakeDeletedGames } from "./FakeData"
 import { NewGame, RatedGame, Game, GameId } from "./Game"
+import { GroupId } from "./Group"
 
-export const getGames = (): Promise<ReadonlyArray<RatedGame>> =>
+export const getGames = (groupId: GroupId): Promise<ReadonlyArray<RatedGame>> =>
   useFakeData
     ? Promise.resolve(fakeRatedGames)
-    : fetch("/api/games").then(response => response.json())
+    : fetch(`/api/games?groupId=${encodeURIComponent(groupId)}`).then(response => response.json())
 
-export const getDeletedGames = (): Promise<ReadonlyArray<Game>> =>
+export const getDeletedGames = (groupId: GroupId): Promise<ReadonlyArray<Game>> =>
   useFakeData
     ? Promise.resolve(fakeDeletedGames)
-    : fetch("/api/games/deleted").then(response => response.json())
+    : fetch(`/api/games/deleted?groupId=${encodeURIComponent(groupId)}`).then(response => response.json())
 
 export const createGame = (newGame: NewGame): Promise<{}> =>
   useFakeData
