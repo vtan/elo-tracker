@@ -26,8 +26,8 @@ private class GameTable(tag: Tag) extends Table[Game](tag, "game") {
 
 class GameRepository {
 
-  def getAll(isDeleted: Boolean): DBIO[Seq[Game]] =
-    all(isDeleted).result
+  def getByGroupId(groupId: Id[Group], isDeleted: Boolean): DBIO[Seq[Game]] =
+    byGroupId((groupId, isDeleted)).result
 
   def getById(gameId: Id[Game]): DBIO[Option[Game]] =
     byId(gameId).result.headOption
@@ -48,8 +48,9 @@ class GameRepository {
     table.filter(_.id === gameId)
   }
 
-  private val all = Compiled { isDeleted: ConstColumn[Boolean] =>
+  private val byGroupId = Compiled { (groupId: Rep[Id[Group]], isDeleted: ConstColumn[Boolean]) =>
     table
+      .filter(_.groupId === groupId)
       .filter(_.isDeleted === isDeleted)
       .sortBy(_.playedAt)
   }

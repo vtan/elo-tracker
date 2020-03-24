@@ -13,14 +13,14 @@ class GameApi(gameService: GameService, userService: AuthenticationService) exte
     (get & path("games") & parameter("groupId".as[Id[Group]])) { groupId =>
       authenticateOrRejectWithChallenge(userService.authenticator(groupId) _) { _ =>
         complete {
-          gameService.getRatedGames
+          gameService.getRatedGames(groupId)
         }
       }
     } ~
     (get & path("games" / "deleted") & parameter("groupId".as[Id[Group]])) { groupId =>
       authenticateOrRejectWithChallenge(userService.authenticator(groupId) _) { _ =>
         complete {
-          gameService.getDeletedGames
+          gameService.getDeletedGames(groupId)
         }
       }
     } ~

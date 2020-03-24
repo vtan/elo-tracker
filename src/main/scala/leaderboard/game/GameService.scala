@@ -2,6 +2,7 @@ package leaderboard.game
 
 import leaderboard.common.{DatabaseProfile, Id}
 import leaderboard.error.NotFoundError
+import leaderboard.group.Group
 
 import java.time.{LocalDateTime, ZoneId}
 import scala.concurrent.{ExecutionContext, Future}
@@ -11,14 +12,14 @@ class GameService(
   gameRepository: GameRepository
 )(implicit ec: ExecutionContext) {
 
-  def getRatedGames: Future[Seq[RatedGame]] =
-    database.run(gameRepository.getAll(isDeleted = false)).map { games =>
+  def getRatedGames(groupId: Id[Group]): Future[Seq[RatedGame]] =
+    database.run(gameRepository.getByGroupId(groupId, isDeleted = false)).map { games =>
       val ratings = Rating.rateGames(games)
       (games zip ratings).map((RatedGame.apply _).tupled)
     }
 
-  def getDeletedGames: Future[Seq[Game]] =
-    database.run(gameRepository.getAll(isDeleted = true))
+  def getDeletedGames(groupId: Id[Group]): Future[Seq[Game]] =
+    database.run(gameRepository.getByGroupId(groupId, isDeleted = true))
 
   def create(newGame: NewGame): Future[Unit] = {
     val game = newGame.forInsert(playedAt = LocalDateTime.now(ZoneId.of("UTC")))
