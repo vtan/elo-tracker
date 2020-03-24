@@ -1,4 +1,5 @@
 import { RatedGame, Game } from "./Game"
+import { Group } from "./Group"
 
 export const useFakeData: Boolean =
   new URLSearchParams(window.location.search).get('fakeData') !== null
@@ -237,7 +238,7 @@ export const fakeRatedGames: ReadonlyArray<RatedGame> =
       }
     },
     {
-      "game": { "id": "21", "groupId": "0", "playedAt": "2020-03-05T00:00", "player1": "Bbb", "player2": "E", "score1": 24, "score2": 0.5, "isDeleted": false },
+      "game": { "id": "22", "groupId": "0", "playedAt": "2020-03-05T00:00", "player1": "Bbb", "player2": "E", "score1": 24, "score2": 0.5, "isDeleted": false },
       "playerRatings": {
         "Dddddd": { "rating": 1327.98798861119, "deviation": 350 },
         "Ffffff": { "rating": 1392.1900544350583, "deviation": 350 },
@@ -253,4 +254,8 @@ export const fakeRatedGames: ReadonlyArray<RatedGame> =
 
 export const fakeDeletedGames: ReadonlyArray<Game> = [
   { "id": "22", "groupId": "0", "playedAt": "2020-03-06T00:00", "player1": "Bbb", "player2": "E", "score1": 12, "score2": 20, "isDeleted": true }
+]
+
+export const fakeGroups: ReadonlyArray<Group> = [
+  { "id": "0", "name": "Test Group", urlName: "test-group" }
 ]

@@ -1,6 +1,6 @@
-import { useFakeData, fakeRatedGames, fakeDeletedGames } from "./FakeData"
+import { useFakeData, fakeRatedGames, fakeDeletedGames, fakeGroups } from "./FakeData"
 import { NewGame, RatedGame, Game, GameId } from "./Game"
-import { GroupId } from "./Group"
+import { GroupId, Group } from "./Group"
 
 export const getGames = (groupId: GroupId): Promise<ReadonlyArray<RatedGame>> =>
   useFakeData
@@ -21,6 +21,11 @@ export const updateGame = (gameId: GameId, newGame: NewGame): Promise<{}> =>
   useFakeData
     ? Promise.resolve({})
     : fetch(`/api/games/${gameId}`, put(newGame)).then(response => response.json())
+
+export const getGroups = (): Promise<ReadonlyArray<Group>> =>
+  useFakeData
+    ? Promise.resolve(fakeGroups)
+    : fetch("/api/groups").then(response => response.json())
 
 const post = (body: any): RequestInit =>
   ({
