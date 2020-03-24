@@ -36,16 +36,16 @@ export function GameTable({ dispatch, games, selectedPlayer }: Props) {
               index === games.length - 1 ||
               DateTime.fromISO(games[index + 1].game.playedAt, { zone: "utc" }).year !== playedAt.year
 
-            return <>
+            return <React.Fragment key={game.id} >
               { newYear
-                  ? <tr key={`separator-${playedAt.year}`}>
-                    <th colSpan={3} />
-                    <YearSeparator colSpan={2}>{playedAt.year}</YearSeparator>
-                    <th colSpan={3} />
+                  ? <tr>
+                      <th colSpan={3} />
+                      <YearSeparator colSpan={2}>{playedAt.year}</YearSeparator>
+                      <th colSpan={3} />
                     </tr>
                   : null
               }
-              <Row key={game.id} selected={selected}>
+              <Row selected={selected}>
                 <td>{ playedAt.toFormat("LLL d") }</td>
                 <DarkGameCell>
                   <Player
@@ -67,7 +67,7 @@ export function GameTable({ dispatch, games, selectedPlayer }: Props) {
                 </LightGameCell>
                 <td><LinkButton onClick={ () => AppReducer.deleteGame(dispatch, game) }>✗</LinkButton></td>
               </Row>
-            </>
+            </React.Fragment>
         } ) }
       </tbody>
     </table>
