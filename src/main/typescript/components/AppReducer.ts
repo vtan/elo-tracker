@@ -3,7 +3,8 @@ import { RatedGame, NewGame, Game } from "../Game"
 import { Group, GroupId } from "../Group"
 
 export interface State {
-  group: Group,
+  groups: ReadonlyArray<Group>,
+  openGroup?: Group,
   games: ReadonlyArray<RatedGame>,
   deletedGames: ReadonlyArray<Game>,
   selectedGameIndex: number,
@@ -13,7 +14,7 @@ export interface State {
 }
 
 export const initialState: State = {
-  group: { id: "0" },
+  groups: [],
   games: [],
   deletedGames: [],
   selectedGameIndex: 0,
@@ -21,7 +22,10 @@ export const initialState: State = {
 }
 
 export type Action =
-  { type: "gamesFetched", games: ReadonlyArray<RatedGame> }
+  { type: "groupsFetched", groups: ReadonlyArray<Group> }
+  | { type: "groupOpened", group: Group }
+  | { type: "groupClosed" }
+  | { type: "gamesFetched", games: ReadonlyArray<RatedGame> }
   | { type: "deletedGamesFetched", deletedGames: ReadonlyArray<Game> }
   | { type: "gameSelected", index: number }
   | { type: "playerToggled", player: string }
@@ -29,6 +33,12 @@ export type Action =
 
 export function reducer(state: State, action: Action): State {
   switch (action.type) {
+    case "groupsFetched":
+      return { ...state, groups: action.groups }
+    case "groupOpened":
+      return { ...state, openGroup: action.group }
+    case "groupClosed":
+      return { ...initialState, groups: state.groups }
     case "gamesFetched":
       if (action.games.length > 0) {
         const selectedGameIndex = action.games.length - 1
@@ -58,6 +68,10 @@ export function reducer(state: State, action: Action): State {
 }
 
 export type Dispatch = (_: Action) => void
+
+export function fetchGroups(dispatch: Dispatch): void {
+  Api.getGroups().then(groups => dispatch({ type: "groupsFetched", groups }))
+}
 
 export function fetchGames(dispatch: Dispatch, groupId: GroupId): void {
   Api.getGames(groupId).then(games => dispatch({ type: "gamesFetched", games }))

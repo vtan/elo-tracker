@@ -3,7 +3,7 @@ package leaderboard
 import leaderboard.common.{Api, DatabaseConfig, DatabaseProfile}
 import leaderboard.game.{GameApi, GameRepository, GameService}
 import leaderboard.authentication.AuthenticationService
-import leaderboard.group.GroupRepository
+import leaderboard.group.{GroupApi, GroupRepository, GroupService}
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
@@ -32,19 +32,26 @@ object Main {
     val database = DatabaseProfile.api.Database.forConfig("database", config)
 
     val groupRepository = new GroupRepository
-    val userService = new AuthenticationService(database, groupRepository)
+    val groupService = new GroupService(database, groupRepository)
+    val groupApi = new GroupApi(groupService)
+
+    val authenticationService = new AuthenticationService(database, groupRepository)
 
     val gameRepository = new GameRepository
     val gameService = new GameService(database, gameRepository)
-    val gameApi = new GameApi(gameService, userService)
+    val gameApi = new GameApi(gameService, authenticationService)
 
     implicit val exceptionHandler: ExceptionHandler = Api.exceptionHandler(system.log)
-    val route =
+    val route = {
+      val serveApp = getFromFile("webroot/index.html")
       pathPrefix("api") {
-        gameApi.route
+        gameApi.route ~
+        groupApi.route
       } ~
-      pathSingleSlash { getFromFile("webroot/index.html") } ~
+      pathSingleSlash { serveApp } ~
+      path("[a-z0-9-]+".r) { _ => serveApp } ~
       getFromDirectory("webroot")
+    }
 
     val host = "0.0.0.0"
     val port = Option(System.getenv("PORT")).filter(_.nonEmpty).flatMap(_.toIntOption).getOrElse(8081)

@@ -1,5 +1,7 @@
 export type GroupId = string
 
 export interface Group {
-  id: GroupId
+  id: GroupId,
+  name: string,
+  urlName: string
 }
